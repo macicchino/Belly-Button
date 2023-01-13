@@ -1,3 +1,5 @@
+console.log("Proof were in js")
+
 function init() {
   // Grab a reference to the dropdown select element
   var selector = d3.select("#selDataset");
@@ -29,6 +31,7 @@ function optionChanged(newSample) {
   buildCharts(newSample);
   
 }
+console.log("Line32");
 
 // Demographics Panel 
 function buildMetadata(sample) {
@@ -53,45 +56,48 @@ function buildMetadata(sample) {
 
   });
 }
-
+console.log("Makde it to buildCharts")
 // Deliverable 1: 1. Create the buildChart function.
 function buildCharts(sample) {
   // Deliverable 1: 2. Use d3.json to load the samples.json file 
   d3.json("samples.json").then((data) => {
     console.log(data);
-
+    
     // Deliverable 1: 3. Create a variable that holds the samples array. 
     ///MC ADDITION
-    var samplesArray = [data]
+    var samples = data.samples;
     // Deliverable 1: 4. Create a variable that filters the samples for the object with the desired sample number.
     ///MC ADDITION
-    var filteredSamples = data.samples.filter(sampleObj => sampleObj.id == sample)
-    
+    var filteredSamples = samples.filter(sampleObj => sampleObj.id == sample);
+    console.group(filteredSamples);
     // Deliverable 3: 1. Create a variable that filters the metadata array for the object with the desired sample number.
     ///MC ADDITION
-    var filteredMeta = data.metadata.filter(sampleObj => sampleObj.id == sample)
+    var metadata = data.metadata;
+    var filteredMeta = data.metadata.filter(sampleObj => sampleObj.id == sample);
 
     // Deliverable 1: 5. Create a variable that holds the first sample in the array.
     ///MC ADDITION
-    var chart1 = samplesArray[0];
-
+    var chart1 = filteredSamples[0];
+    console.log(chart1);
+    console.log("Did we make it to 80?");
     // Deliverable 3: 2. Create a variable that holds the first sample in the metadata array.
     ///MC ADDITION
     var meta1 = filteredMeta[0];
 
     // Deliverable 1: 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     ///MC ADDITION
-    var otu_ids = samplesArray.map(function(otu_ids));
+    console.log(meta1);
+    var otu_ids = chart1.otu_ids;
 
-    var otu_labels = samplesArray.map(function(otu_labels));
+    var otu_labels = chart1.otu_labels;
 
-    var sample_values = samplesArray.map(function(sample_values));
+    var sample_values = chart1.sample_values;
 
 
 
     // Deliverable 3: 3. Create a variable that holds the washing frequency.
     ///MC ADDITION
-    var wfreq  = samplesArray.map(function(wfreq));
+    var wfreq  = filteredSamples.map(wfreq);
 
     // Deliverable 1: 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order 
@@ -99,16 +105,16 @@ function buildCharts(sample) {
     ///MC ADDITION
     var yticks = [
       var otu_ids_Sort = [data.samples.otu_ids];
-      sortedAge = otu_ids_Sort.sort((a,b) => b - a);
+      var Ordered_otu_ids = otu_ids_Sort.sort((a,b) => b - a);
     ];
 
     // Deliverable 1: 8. Create the trace for the bar chart. 
     ///MC ADDITION
-    var barData = [
+    var barData = [{
       x: [ ],
       y: [ ],
       type: "bar"
-    ];
+    }];
 
     // Deliverable 1: 9. Create the layout for the bar chart. 
     ///MC ADDITION
@@ -139,7 +145,7 @@ function buildCharts(sample) {
       title: "'Bubble' Chart",
       showlegend: false,
       height: 600,
-      width: 600;
+      width: 600
     };
 
     // Deliverable 2: 3. Use Plotly to plot the data with the layout.
