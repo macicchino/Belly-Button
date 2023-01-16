@@ -31,7 +31,7 @@ function optionChanged(newSample) {
   buildCharts(newSample);
   
 }
-console.log("Line32");
+console.log("Line34");
 
 // Demographics Panel 
 function buildMetadata(sample) {
@@ -56,7 +56,7 @@ function buildMetadata(sample) {
 
   });
 }
-console.log("Makde it to buildCharts")
+console.log("Made it to buildCharts")
 // Deliverable 1: 1. Create the buildChart function.
 function buildCharts(sample) {
   // Deliverable 1: 2. Use d3.json to load the samples.json file 
@@ -79,70 +79,81 @@ function buildCharts(sample) {
     ///MC ADDITION
     var chart1 = filteredSamples[0];
     console.log(chart1);
-    console.log("Did we make it to 80?");
+    console.log("Made it to line 82 - chart 1");
     // Deliverable 3: 2. Create a variable that holds the first sample in the metadata array.
     ///MC ADDITION
     var meta1 = filteredMeta[0];
+    console.log(meta1)
 
     // Deliverable 1: 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     ///MC ADDITION
     console.log(meta1);
     var otu_ids = chart1.otu_ids;
-
     var otu_labels = chart1.otu_labels;
-
     var sample_values = chart1.sample_values;
-
-
+    //console.log(otu_ids);
+    //console.log(otu_labels);
+    //console.log(sample_values);
+    console.log("Made it to line 99");
 
     // Deliverable 3: 3. Create a variable that holds the washing frequency.
     ///MC ADDITION
-    var wfreq  = filteredSamples.map(wfreq);
+    var wfreq = data.metadata.map(person => person.wfreq);
+    console.log(wfreq);
 
     // Deliverable 1: 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order 
     // so the otu_ids with the most bacteria are last. 
     ///MC ADDITION
-    var yticks = [
-      var otu_ids_Sort = [data.samples.otu_ids];
-      var Ordered_otu_ids = otu_ids_Sort.sort((a,b) => b - a);
-    ];
+    var yticks = otu_ids.slice(0,10).map(otulD => `OTU ${otulD}`).reverse();
+    console.log(yticks);
+    console.log("Line 109, yticks");
 
     // Deliverable 1: 8. Create the trace for the bar chart. 
     ///MC ADDITION
     var barData = [{
-      x: [ ],
-      y: [ ],
-      type: "bar"
-    }];
+      y: yticks,
+      x: sample_values.slice(0,10).reverse(),
+      text: otu_labels.slice(0,10).reverse(),
+      type: "bar",
+      orientation:"h",
+    }
+    ];
+    console.log(barData)
 
     // Deliverable 1: 9. Create the layout for the bar chart. 
     ///MC ADDITION
     var barLayout = {
-      title: "'Bar' Chart",
-      xaxis: { title: "Drinks"},
-      yaxis: { title: "% of Drinks Ordered"}
+      title: "<b>Top 10 Bacteria Cultures Found</b> <br> (Bar Chart)",
     };
 
+    console.log(barLayout);
+    console.log("Line 132 - End of Bar Chart build before construct");
     // Deliverable 1: 10. Use Plotly to plot the data with the layout. 
     ///MC ADDITION
-    Plotly.newPlot("plot", barData, barLayout);
+    Plotly.newPlot("bar", barData, barLayout);
 
     // Deliverable 2: 1. Create the trace for the bubble chart.
     ///MC ADDITION
-    var bubbleData = [
-      x: [ ],
-      y: [ ],
-      type: "markers",
+    var bubbleTrace = [
+      {
+      x: otu_ids.slice(0,10).reverse(),
+      y: sample_values.slice(0,10).reverse(),
+      text: otu_labels.slice(0,10).reverse(),
+      mode: 'markers',
       marker: {
-        size: [ 40, 60, 80, 100]
+        size: sample_values.slice(0,10).reverse()
       }
+    }
     ];
+
+    console.log("Check BubbleData array below: ")
+    console.log(bubbleTrace)
 
     // Deliverable 2: 2. Create the layout for the bubble chart.
     ///MC ADDITION
     var bubbleLayout = {
-      title: "'Bubble' Chart",
+      title: "<b>Bacteria Cultures per Sample</b> <br> (Bubble Chart)",
       showlegend: false,
       height: 600,
       width: 600
@@ -150,27 +161,37 @@ function buildCharts(sample) {
 
     // Deliverable 2: 3. Use Plotly to plot the data with the layout.
     ///MC ADDITION
-    Plotly.newPlot("plot", bubbleData, bubbleLayout);
+    Plotly.newPlot("bubble", bubbleTrace, bubbleLayout);
 
     // Deliverable 3: 4. Create the trace for the gauge chart.
     ///MC ADDITION
     var gaugeData = [ 
       {
         domain: { x: [0, 1], y: [0, 1] },
-        value: 270,
-        title: { text: "Rate" },
+        value: meta1.wfreq,
+        title: { text: "<b>Belly Button Washing Frequency</b> <br> Scrubs per Week" },
         type: "indicator",
-        mode: "gauge+number"
+        mode: "gauge+number",
+        gauge: {
+          axis: {range:[null, 10], tickwidth: 1, tickcolor: "darkblue" },
+          steps: [
+            { range: [0, 2], color: "yellow" },
+            { range: [2, 3], color: "orange" },
+            { range: [3, 5], color: "green" },
+          ],
+        }
       }
     ];
 
+    console.log(gaugeData)
     // Deliverable 3: 5. Create the layout for the gauge chart.
     ///MC ADDITION
     var gaugeLayout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
 
     // Deliverable 3: 6. Use Plotly to plot the gauge data and layout.
     ///MC ADDITION
-    Plotly.newPlot('plot', gaugeData, gaugeLayout);
+    Plotly.newPlot('gauge', gaugeData, gaugeLayout);
 
-  });
-}
+});
+
+};
