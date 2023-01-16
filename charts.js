@@ -125,6 +125,8 @@ function buildCharts(sample) {
     ///MC ADDITION
     var barLayout = {
       title: "<b>Top 10 Bacteria Cultures Found</b> <br> (Bar Chart)",
+      height: 380,
+      width: 450
     };
 
     console.log(barLayout);
@@ -137,12 +139,13 @@ function buildCharts(sample) {
     ///MC ADDITION
     var bubbleTrace = [
       {
-      x: otu_ids.slice(0,10).reverse(),
-      y: sample_values.slice(0,10).reverse(),
-      text: otu_labels.slice(0,10).reverse(),
+      x: otu_ids.slice(0,85).reverse(),
+      y: sample_values.slice(0,85).reverse(),
+      text: otu_labels.slice(0,85).reverse(),
       mode: 'markers',
       marker: {
-        size: sample_values.slice(0,10).reverse()
+        color: otu_ids.slice(0,85).reverse(),
+        size: sample_values.slice(0,85).reverse()
       }
     }
     ];
@@ -154,9 +157,10 @@ function buildCharts(sample) {
     ///MC ADDITION
     var bubbleLayout = {
       title: "<b>Bacteria Cultures per Sample</b> <br> (Bubble Chart)",
+      xaxis: { title: "OTU ID"},
       showlegend: false,
       height: 600,
-      width: 600
+      width: 1180
     };
 
     // Deliverable 2: 3. Use Plotly to plot the data with the layout.
@@ -174,10 +178,13 @@ function buildCharts(sample) {
         mode: "gauge+number",
         gauge: {
           axis: {range:[null, 10], tickwidth: 1, tickcolor: "darkblue" },
+          bar: { color: "black" },
           steps: [
-            { range: [0, 2], color: "yellow" },
-            { range: [2, 3], color: "orange" },
-            { range: [3, 5], color: "green" },
+            { range: [0, 2], color: "red" },
+            { range: [2, 4], color: "orange" },
+            { range: [4, 6], color: "yellow" },
+            { range: [6, 8], color: "lightgreen" },
+            { range: [8, 10], color: "darkgreen" }
           ],
         }
       }
@@ -186,7 +193,7 @@ function buildCharts(sample) {
     console.log(gaugeData)
     // Deliverable 3: 5. Create the layout for the gauge chart.
     ///MC ADDITION
-    var gaugeLayout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+    var gaugeLayout = { width: 500, height: 380, margin: { t: 0, b: 0 } };
 
     // Deliverable 3: 6. Use Plotly to plot the gauge data and layout.
     ///MC ADDITION
